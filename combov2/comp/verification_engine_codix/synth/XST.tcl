@@ -37,7 +37,8 @@ set TOP_LEVEL_ENT "VERIFICATION_ENGINE"
 #set VER_ENG_ARCH  "CORE"
 #set VER_ENG_ARCH  "HW_GEN"
 #set VER_ENG_ARCH  "HW_GEN_CORE"
-set VER_ENG_ARCH  "HW_FULL"
+#set VER_ENG_ARCH  "HW_FULL"
+set VER_ENG_ARCH "CODIX"
 
 # specify vhdl_design directory
 set FIRMWARE_BASE  "../../.."

@@ -16,15 +16,24 @@ class codix_ca_scoreboard extends ovm_scoreboard;
 	// queues to receive transaction from monitors and golden model
 	tlm_analysis_fifo #(codix_ca_core_regs_transaction) m_dut_codix_ca_core_regs_fifo;
 	tlm_analysis_fifo #(codix_ca_core_regs_transaction) m_golden_model_codix_ca_core_regs_fifo;
+
 	tlm_analysis_fifo #(codix_ca_output_transaction) m_dut_codix_ca_output_fifo;
 	tlm_analysis_fifo #(codix_ca_output_transaction) m_golden_model_codix_ca_output_fifo;
+
+        tlm_analysis_fifo #(codix_ca_mem_transaction) m_dut_codix_ca_mem_fifo;
+        //tlm_analysis_fifo #(codix_ca_mem_transaction) m_golden_model_codix_ca_mem_fifo;
+
 	tlm_analysis_fifo #(codix_ca_input_transaction) m_dut_codix_ca_input_fifo;
 
 	// local queues to store all transactions
 	local codix_ca_core_regs_transaction m_dut_codix_ca_core_regs_fifo_all[$];
 	local codix_ca_core_regs_transaction m_golden_model_codix_ca_core_regs_fifo_all[$];
+
 	local codix_ca_output_transaction m_dut_codix_ca_output_fifo_all[$];
 	local codix_ca_output_transaction m_golden_model_codix_ca_output_fifo_all[$];
+
+        local codix_ca_mem_transaction m_dut_codix_ca_mem_fifo_all[$];
+
 	local codix_ca_input_transaction m_dut_codix_ca_input_fifo_all[$];
 
 	// store last transaction register file content
@@ -49,8 +58,12 @@ class codix_ca_scoreboard extends ovm_scoreboard;
 		super.build();
 		m_dut_codix_ca_core_regs_fifo = new( "m_dut_codix_ca_core_regs_fifo", this );
 		m_golden_model_codix_ca_core_regs_fifo = new( "m_golden_model_codix_ca_core_regs_fifo", this );
+
 		m_dut_codix_ca_output_fifo = new( "m_dut_codix_ca_output_fifo", this );
 		m_golden_model_codix_ca_output_fifo = new( "m_golden_model_codix_ca_output_fifo", this );
+
+                m_dut_codix_ca_mem_fifo = new( "m_dut_codix_ca_mem_fifo", this );
+
 		m_dut_codix_ca_input_fifo = new( "m_dut_codix_ca_input_fifo", this );
 	endfunction : build
 

@@ -31,44 +31,39 @@ proc blk_VER_CORE { BASE } {
 }
 
 proc blk_VER_CORE_DUT_IFC { BASE } {
-
-  add wave -divider "DUT - controls"
-  add_wave "-noupdate -label instr_id -hex" $BASE/gen_dut_codix/dut_codix_i/core/main_instr_hw_instr_hw/id_instr_Q0
-  add_wave "-noupdate -label invalid_instr" $BASE/gen_dut_codix/dut_codix_i/core/main_instr_hw_instr_hw/invalid_instruction
-
+  add wave -divider "Codix - synchr"
+#  add_wave "-noupdate -label instr_id -hex" $BASE/gen_dut_codix/dut_codix_i/core/main_instr_hw_instr_hw/id_instr_Q0
+#  add_wave "-noupdate -label invalid_instr" $BASE/gen_dut_codix/dut_codix_i/core/main_instr_hw_instr_hw/invalid_instruction
 #  add_wave "-noupdate -label dut_memory_0 -hex" $BASE/gen_dut_codix/dut_codix_i/mem/memory_0
 #  add_wave "-noupdate -label dut_memory_1 -hex" $BASE/gen_dut_codix/dut_codix_i/mem/memory_1
 #  add_wave "-noupdate -label dut_memory_2 -hex" $BASE/gen_dut_codix/dut_codix_i/mem/memory_2
 #  add_wave "-noupdate -label dut_memory_3 -hex" $BASE/gen_dut_codix/dut_codix_i/mem/memory_3
-  add_wave "-noupdate -label dut_in_rst_n" $BASE/dut_in_rst_n
+  add_wave "-noupdate -label CLK"                  $BASE/CLK
+  add_wave "-noupdate -label RST_n"                $BASE/dut_in_rst_n
 
-  add wave -divider "DUT in - mem write"
-  add_wave "-noupdate -label dut_in_dbg" $BASE/dut_in_mem_dbg
-  add_wave "-noupdate -label dut_in_d0 -hex" $BASE/dut_in_mem_d0
-  add_wave "-noupdate -label dut_in_wa0 " $BASE/dut_in_mem_wa0
-  add_wave "-noupdate -label dut_in_we0" $BASE/dut_in_mem_we0
-  add_wave "-noupdate -label dut_in_wsc0" $BASE/dut_in_mem_wsc0
-  add_wave "-noupdate -label dut_in_wsi0" $BASE/dut_in_mem_wsi0
+#  add wave -divider "Codix memory"
+#  add_wave "-noupdate -label dbg_mode_mem"         $BASE/dut_in_mem_dbg
+#  add_wave "-noupdate -label dbg_mode_mem_D0 -hex" $BASE/dut_in_mem_d0
+#  add_wave "-noupdate -label dbg_mode_mem_WA0 "    $BASE/dut_in_mem_wa0
+#  add_wave "-noupdate -label dbg_mode_mem_WE0"     $BASE/dut_in_mem_we0
+#  add_wave "-noupdate -label dbg_mode_mem_WSC0"    $BASE/dut_in_mem_wsc0
+#  add_wave "-noupdate -label dbg_mode_mem_WSI0"    $BASE/dut_in_mem_wsi0
+#  add_wave "-noupdate -label dbg_mode_mem_Q0 -hex" $BASE/dut_out_mem_q0
+#  add_wave "-noupdate -label dbg_mode_mem_RA0 -hex" $BASE/dut_in_mem_ra0
+#  add_wave "-noupdate -label dbg_mode_mem_RE0"     $BASE/dut_in_mem_re0
+#  add_wave "-noupdate -label dbg_mode_mem_RSI0"    $BASE/dut_in_mem_rsi0
+#  add_wave "-noupdate -label dbg_mode_mem_RSC0"    $BASE/dut_in_mem_rsc0
 
-  add wave -divider "DUT in - mem read"
-  add_wave "-noupdate -label dut_in_ra0 -hex" $BASE/dut_in_mem_ra0
-  add_wave "-noupdate -label dut_in_re0" $BASE/dut_in_mem_re0
-  add_wave "-noupdate -label dut_in_rsc0" $BASE/dut_in_mem_rsc0
-  add_wave "-noupdate -label dut_in_rsi0" $BASE/dut_in_mem_rsi0
+  add wave -divider "Codix registers"
+  add_wave "-noupdate -label dbg_mode_regs"        $BASE/dut_in_regs_dbg
+  add_wave "-noupdate -label dbg_mode_regs_Q0 -hex" $BASE/dut_out_regs_q0
+  add_wave "-noupdate -label dbg_mode_regs_RA0"    $BASE/dut_in_regs_ra0
+  add_wave "-noupdate -label dbg_mode_regs_RE0"    $BASE/dut_in_regs_re0
 
-  add wave -divider "DUT in - RF read"
-  add_wave "-noupdate -label dut_in_regs_dbg" $BASE/dut_in_regs_dbg
-  add_wave "-noupdate -label dut_in_regs_ra0" $BASE/dut_in_regs_ra0
-  add_wave "-noupdate -label dut_in_regs_re0" $BASE/dut_in_regs_re0
-
-  add wave -divider "DUT - out"
-
-  add_wave "-noupdate -label dut_out_mem_q0 -hex" $BASE/dut_out_mem_q0
-  add_wave "-noupdate -label dut_out_regs_q0 -hex" $BASE/dut_out_regs_q0
-  add_wave "-noupdate -label dut_out_port_error -hex" $BASE/dut_out_port_error
-  add_wave "-noupdate -label dut_out_port_halt" $BASE/dut_out_port_halt
-  add_wave "-noupdate -label dut_out_port_output -hex" $BASE/dut_out_port_output
-  add_wave "-noupdate -label dut_out_port_output_en" $BASE/dut_out_port_output_en
+#  add wave -divider "Codix output"
+#  add_wave "-noupdate -label port_halt"            $BASE/dut_out_port_halt
+#  add_wave "-noupdate -label port_output -hex"     $BASE/dut_out_port_output
+#  add_wave "-noupdate -label port_output_en"       $BASE/dut_out_port_output_en
 
 }
 

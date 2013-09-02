@@ -22,9 +22,12 @@ package sv_codix_ca_param_pkg;
                    NONE
                  } tDebug;
 
-    parameter tEnv VER_ENV = SW_HW;
+    typedef enum { TESTING,
+                   DONE
+                 } tPhase;
 
-    
+    parameter tEnv   VER_ENV = SW_HW;
+    parameter tPhase PHASE = TESTING;    
     parameter tDebug DEBUG_LEVEL = ALL;
    
     // clocks and resets

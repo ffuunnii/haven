@@ -170,7 +170,8 @@ begin
    ver_engine_i: entity work.verification_engine
    generic map(
       -- frame data width in bits
-      DATA_WIDTH     => FL_DATA_WIDTH
+      FL_DATA_WIDTH     => FL_DATA_WIDTH,
+      CODIX_DATA_WIDTH  => CODIX_DATA_WIDTH
    )
    port map(
       CLK           => CLK,

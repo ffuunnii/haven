@@ -57,8 +57,8 @@ if { $argc > 0 } {
 	set PROGRAMS [lsort -dictionary [glob ./xexes/*.xexe]]
 }
 # Clear previous reports
-file delete report.txt
-file delete coverage.ucdb
+#file delete report.txt
+#file delete coverage.ucdb
 
 # Set path to top level and DUT instance
 set TOP_MODULE "codix_ca_top"
@@ -76,16 +76,16 @@ if [file exists golden_model/libgm.so] {
 	vsim -coverage -t 1ps -lib work $TOP_MODULE
 }
 # Suppress warnings from arithmetic library during reset
-set NumericStdNoWarnings 1;
-set StdArithNoWarnings 1;
-when -fast -label disable_StdWarn {/codix_ca_top/dut/icodix_ca_core_regs_if/RST == 0} {
-	set NumericStdNoWarnings 1;
-	set StdArithNoWarnings 1;
-}
-when -fast -label enable_StdWarn {/codix_ca_top/dut/icodix_ca_core_regs_if/RST == 1} {
-	set NumericStdNoWarnings 0;
-	set StdArithNoWarnings 0;
-}
+#set NumericStdNoWarnings 1;
+#set StdArithNoWarnings 1;
+#when -fast -label disable_StdWarn {/codix_ca_top/dut/icodix_ca_core_regs_if/RST == 0} {
+#	set NumericStdNoWarnings 1;
+#	set StdArithNoWarnings 1;
+#}
+#when -fast -label enable_StdWarn {/codix_ca_top/dut/icodix_ca_core_regs_if/RST == 1} {
+#	set NumericStdNoWarnings 0;
+#	set StdArithNoWarnings 0;
+#}
 
 # Definition of signals in a wave window and complete GUI customization
 source "./signals.fdo"
@@ -94,41 +94,41 @@ customize_gui /$DUT_MODULE /$HDL_DUT
 # Simulate all programs
 foreach PROGRAM $PROGRAMS {
 	# Prepare report
-	exec echo -n "$PROGRAM\t\t" >> report.txt
+	#exec echo -n "$PROGRAM\t\t" >> report.txt
 	# Prepare program for HW
-	exec cut -c1-8 $PROGRAM.hw > ./xexes/mem_subblock_0
-	exec cut -c9-16 $PROGRAM.hw > ./xexes/mem_subblock_1
-	exec cut -c17-24 $PROGRAM.hw > ./xexes/mem_subblock_2
-	exec cut -c25-32 $PROGRAM.hw > ./xexes/mem_subblock_3
+	#exec cut -c1-8 $PROGRAM.hw > ./xexes/mem_subblock_0
+	#exec cut -c9-16 $PROGRAM.hw > ./xexes/mem_subblock_1
+	#exec cut -c17-24 $PROGRAM.hw > ./xexes/mem_subblock_2
+	#exec cut -c25-32 $PROGRAM.hw > ./xexes/mem_subblock_3
 	# Prepare program for simulator
-	file copy -force $PROGRAM ./xexes/program
+	#file copy -force $PROGRAM ./xexes/program
 
 	restart -f
 
 	# Load program into DUT memory
-	mem load -i ./xexes/mem_subblock_0 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_0
-	mem load -i ./xexes/mem_subblock_1 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_1
-	mem load -i ./xexes/mem_subblock_2 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_2
-	mem load -i ./xexes/mem_subblock_3 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_3
+	#mem load -i ./xexes/mem_subblock_0 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_0
+	#mem load -i ./xexes/mem_subblock_1 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_1
+	#mem load -i ./xexes/mem_subblock_2 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_2
+	#mem load -i ./xexes/mem_subblock_3 -startaddress 0 -format binary /$HDL_DUT/codix_ca/mem/memory_3
 
 	# Set variables to run multiple programs
-	onElabError resume
-	onbreak resume
-	onfinish stop
+	#onElabError resume
+	#onbreak resume
+	#onfinish stop
 
 	# Run the simulation
 	run -all
 	# Save coverage from current run
-	coverage save -codeAll -cvg "$PROGRAM.ucdb"
+	#coverage save -codeAll -cvg "$PROGRAM.ucdb"
 }
 
 # merge coverage results from all runs
-set COVER_RESULTS [glob ./xexes/*.ucdb]
-vcover merge ./xexes/*.ucdb -out coverage.ucdb
+#set COVER_RESULTS [glob ./xexes/*.ucdb]
+#vcover merge ./xexes/*.ucdb -out coverage.ucdb
 # Delete coverage result for single program
-foreach RESULT $COVER_RESULTS {
-	file delete $RESULT
-}
+#foreach RESULT $COVER_RESULTS {
+#	file delete $RESULT
+#}
 
 # Generate coverage report
-vcover report -html -htmldir covreport coverage.ucdb
+#vcover report -html -htmldir covreport coverage.ucdb

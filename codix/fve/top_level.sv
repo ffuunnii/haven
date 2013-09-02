@@ -22,8 +22,8 @@ module codix_ca_top;
     logic CLK = 1;
     logic RST = 1;
 
-        // DUT instance
-        DUT dut( CLK, RST );
+    // DUT instance
+    DUT dut( CLK, RST );
 
     // software version of verification environment
     if (VER_ENV == SW_FULL) begin

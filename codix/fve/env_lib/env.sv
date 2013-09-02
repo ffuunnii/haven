@@ -122,7 +122,6 @@ class codix_sw_hw extends ovm_env;
     // connection between sorter and output wrapper
     tlm_fifo #(syncT) sync_fifo_stop_h;
 
-
     // Constructor - creates new instance of this class
     function new( string name, ovm_component parent );
         super.new( name, parent );
@@ -147,25 +146,42 @@ class codix_sw_hw extends ovm_env;
     // Connect - connects ports of the child components so they can communicate
     function void connect();
         super.connect();
-        // sender takes input data from xexes directory
-        // sender.putport => tlm_fifo => input_wrapper.getport
-        sender_h.pport.connect( input_fifo_h.blocking_put_export );
-        input_wrapper_h.gport.connect( input_fifo_h.blocking_get_export );
 
-        // synchronization between input and output wrapper
-        input_wrapper_h.syncport.connect ( sync_fifo_h.blocking_put_export );
-        output_wrapper_h.syncport.connect ( sync_fifo_h.blocking_get_export );
+        // TESTING -> sender to sorter (only SW) + scoreboard
+//        if (PHASE == TESTING) begin
+//            sender_h.pport.connect( output_fifo_h.blocking_put_export );
+//            sorter_h.gport.connect( output_fifo_h.blocking_get_export );
 
-        // output wrapper => sorter
-        output_wrapper_h.pport.connect( output_fifo_h.blocking_put_export );
-        sorter_h.gport.connect( output_fifo_h.blocking_get_export );
+            // sorter to scoreboard
 
-        // sorter synchronization to outputwrapper
-        sorter_h.syncport.connect( sync_fifo_stop_h.blocking_put_export );
-        output_wrapper_h.syncport_sorter.connect( sync_fifo_stop_h.blocking_get_export );
+        // NOT TESTING -> sender -> input wrapper -> HW -> output wrapper ->
+        // sorter -> scoreboard
 
-        // sorter => scoreboard
-        //sorter_h.seq_item_port.connect( );
+//        end else begin
+            // sender takes input data from xexes directory
+            // sender.putport => tlm_fifo => input_wrapper.getport
+            sender_h.pport.connect( input_fifo_h.blocking_put_export );
+            input_wrapper_h.gport.connect( input_fifo_h.blocking_get_export );
+
+           // synchronization between input and output wrapper
+           input_wrapper_h.syncport.connect ( sync_fifo_h.blocking_put_export );
+           output_wrapper_h.syncport.connect ( sync_fifo_h.blocking_get_export );
+
+           // output wrapper => sorter
+           output_wrapper_h.pport.connect( output_fifo_h.blocking_put_export );
+           sorter_h.gport.connect( output_fifo_h.blocking_get_export );
+
+           // sorter synchronization to outputwrapper
+           sorter_h.syncport.connect( sync_fifo_stop_h.blocking_put_export );
+           output_wrapper_h.syncport_sorter.connect( sync_fifo_stop_h.blocking_get_export );
+
+           // sorter => scoreboard
+           //sorter.regs_export.connect( m_codix_ca_scoreboard.m_dut_codix_ca_core_regs_fifo.analysis_export );
+           //sorter.portout_export.connect( m_codix_ca_scoreboard.m_dut_codix_ca_output_fifo.analysis_export );
+           //sorter.mem_export.connect( m_codix_ca_scoreboard.m_dut_codix_ca_mem_fifo.analysis_export );
+
+//        end
+
 
     endfunction: connect
 

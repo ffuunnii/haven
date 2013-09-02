@@ -85,7 +85,6 @@ set STAT          "FULL"
 #set VER_ENGINE    "HW_FULL"
 # This option is obsolete!!! Build HW_GEN_CORE instead!!!
 #set VER_ENGINE    "CORE"
-
 set VER_ENGINE    "CODIX"
 
 # Base directories

@@ -23,6 +23,10 @@ class Sorter extends ovm_component;
     // get port - data
     ovm_get_port#(NetCOPETransaction) gport;
 
+    // analysis port for sending data to the connected scoreboard
+    ovm_analysis_port #(codix_ca_core_regs_transaction) regs_export;
+    ovm_analysis_port #(codix_ca_output_transaction) portout_export;
+    ovm_analysis_port #(codix_ca_mem_transaction) mem_export;
 
     // Constructor - creates new instance of this class
     function new( string name, ovm_component parent );
@@ -32,6 +36,9 @@ class Sorter extends ovm_component;
         syncport = new("syncport", this);
         gport    = new("gport", this);
 
+        regs_export = new( "regs_export", this );
+        portout_export = new( "portout_export", this );
+        mem_export = new( "mem_export", this );
 
     endfunction : new
 
@@ -51,7 +58,6 @@ class Sorter extends ovm_component;
         longint count;
         syncT str;
         NetCOPETransaction t;
-
 
         str = new();
 //        t = new();
@@ -73,29 +79,44 @@ class Sorter extends ovm_component;
             priority case (monitorID)
             // portout monitor
             8'h01 : begin
+			automatic codix_ca_output_transaction portout_tr = new( "dut_codix_ca_output_transaction" );
                         syncport.put(str);
                         gport.get(t);
                         // cast to codix_ca_output_transaction
-                        //portout_pport.put(output_transaction);
+                        //portout_tr.codix_ca_port_output = t.data; 
+                        
+                        // send transaction to scoreboard
+                        //portout_export.write(portout_tr);
+
                         cntPM++;
                     end
             // register monitor
             8'h02 : begin
+                      automatic codix_ca_core_regs_transaction regs_tr = new ( "dut_codix_ca_core_regs_transaction" );
                       for (int i=0 ; i < count ; i++) begin
                         syncport.put(str);
                         gport.get(t);
                         // cast to codix_ca_core_regs_transaction
-                        //regs_pport.put(regs_transaction);
+                        //regs_tr.codix_ca_core_regs_D0 = t.data;
+
+                        // send transaction to scoreboard
+                        //regs_export.write(regs_tr);
+
                         cntRM++;
                       end
                     end
             // memory monitor
             8'h03 : begin
+                      automatic codix_ca_mem_transaction mem_tr = new ( "dut_codix_ca_mem_transaction" );
                       for (int i=0 ; i < count ; i++) begin
                         syncport.put(str);
                         gport.get(t);
                         // cast to codix_ca_mem_transaction
-                        //mem_pport.put(mem_transaction);
+                        //mem_tr.codix_ca_mem_D0 = t.data;
+
+                        // send transaction to scoreboard
+                        //mem_export.write(mem_tr);
+
                         cntMM++;
                       end
 
@@ -122,6 +143,10 @@ class Sorter extends ovm_component;
                     end
           endcase
       end
+
+      `ovm_info( get_name(), $sformatf("\nportout monitor transactions: %d\n", cntPM), OVM_MEDIUM);
+      `ovm_info( get_name(), $sformatf("\nregister monitor transactions: %d\n", cntRM), OVM_MEDIUM);
+      `ovm_info( get_name(), $sformatf("\nmemory monitor transactions: %d\n", cntMM), OVM_MEDIUM);
 
     endtask : run
 
